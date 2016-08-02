@@ -2,6 +2,8 @@ import * as lodash from 'lodash';
 
 function backendResource(store : Array<any>, method : string, url : string, data : string, headers : any, params : any) : Array<any>{
 
+	//console.log(store, method, url, data, headers, params);
+
 	switch (method) {
 		case 'GET':
 			//if no 'id' parameter passed, do getAll	
@@ -9,7 +11,7 @@ function backendResource(store : Array<any>, method : string, url : string, data
 				return [200, lodash.cloneDeep(store), {}];
 			}
 
-			let get_item : any = lodash.find(store, {id: params.id});
+			let get_item : any = lodash.find(store, {'id': Number(params.id)});
 
 			if (!get_item){
 				return [404, 'RESOURCE NOT FOUND', {}];
@@ -36,7 +38,7 @@ function backendResource(store : Array<any>, method : string, url : string, data
 
 			let put_item : Object = JSON.parse(data);
 
-			let put_index : number = lodash.findIndex(store, {id : params.id});
+			let put_index : number = lodash.findIndex(store, {id : Number(params.id)});
 
 			if (put_index == -1){
 				return [404, 'RESOURCE NOT FOUND', {}];

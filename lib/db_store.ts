@@ -26,7 +26,7 @@ export class DbServiceClass {
 
 			$httpBackend.whenGET(path_regex, undefined, ['id']).respond(resource);
 
-			$httpBackend.whenPUT(path_regex, undefined, ['id']).respond(resource);
+			$httpBackend.whenPUT(path_regex, undefined, undefined, ['id']).respond(resource);
 
 			$httpBackend.whenDELETE(path_regex, undefined, ['id']).respond(resource);
 
