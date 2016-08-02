@@ -1,5 +1,5 @@
 # ngSimpleDB
----
+
 A small module for easily building a fake backend into an angular application.
 
 ##### Quick Start
@@ -46,26 +46,26 @@ app.controller('testCtrl', function($http){
 ```
 
 ## ngSimpleStoreProvider
----
+
 Configure the fake backend
 
-##### ngSimpleStoreProvider.apiUrl
+#### ngSimpleStoreProvider.apiUrl
 
 Sets the base url of the api
 
-##### ngSimpleStoreProvider.addResource(name, resourceList)
+#### ngSimpleStoreProvider.addResource(name, resourceList)
 
 Adds a fake backend endpoint to apiUrl/name
 
-##### ngSimpleStoreProvider.setDelay(delay)
+#### ngSimpleStoreProvider.setDelay(delay)
 
 Set api delay (ms)
 
 ## ngSimpleStore
----
+
 Build fake backend at runtime
 
-##### ngSimpleStoreProvider.setup($httpBackend)
+#### ngSimpleStoreProvider.setup($httpBackend)
 For each resource added to the provider, this creates functions that mimic the typical behavior of GET, POST, PUT, and DELETE and attaches them to apiUrl/name with $httpBackend
 
 
