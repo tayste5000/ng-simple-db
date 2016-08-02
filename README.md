@@ -79,15 +79,15 @@ app.controller('testCtrl', function($http){
 
 Configure the fake backend
 
-#### ngSimpleStoreProvider.apiUrl
+### ngSimpleStoreProvider.apiUrl
 
 Sets the base url of the api
 
-#### ngSimpleStoreProvider.addResource(name, resourceList)
+### ngSimpleStoreProvider.addResource(name, resourceList)
 
 Adds a fake backend endpoint to apiUrl/name
 
-#### ngSimpleStoreProvider.setDelay(delay, $provide)
+### ngSimpleStoreProvider.setDelay(delay, $provide)
 
 Set api delay (ms)
 
@@ -95,7 +95,7 @@ Set api delay (ms)
 
 Build fake backend at runtime
 
-#### ngSimpleStoreProvider.setup($httpBackend)
+### ngSimpleStoreProvider.setup($httpBackend)
 For each resource added to the provider, this creates functions that mimic the typical behavior of GET, POST, PUT, and DELETE and attaches them to apiUrl/name with $httpBackend
 
 
