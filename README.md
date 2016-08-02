@@ -55,7 +55,7 @@ app.controller('testCtrl', function($http){
     
     $http.get('/api/foo/1').then(function(res){
         //returns {id: 1, name: 'bar'}
-        console.log('GET /api/foo/1 yields:', res.data');
+        console.log('GET /api/foo/1 yields:', res.data);
     });
     
     $http.post('/api/foo',{name: 'foo'}).then(function(res){
