@@ -1,11 +1,21 @@
 # ngSimpleDB
 
-A small module for easily building a fake backend into an angular application.
+A small module for easily building a fake backend into an angular application. Written with typescript.
 
-##### Quick Start
+### How it works:
++ In the config block:
+    + Specify the API base URL (defaults to /)
+    + Provide route names paired with arrays of data to build each endpoint
+    + Set an API delay (default is no delay)
++ In the run block:
+    + Trigger the setup function to build the backend
++ What you get:
+    + Using the $http service (or anything that uses this), any GET, POST, PUT, or DELETE request which matches one of the routes specified will perform the expected operation (using the array you supplied with route name as a data store)
+
+#### Quick Start
 #
 ```
-var app = angular.module('myApp',['ngSimpleDb']);
+var app = angular.module('myApp',['ngMockE2E', 'ngSimpleDb']);
 
 app.config(function(ngSimpleStoreProvider, $provide){
     
@@ -19,7 +29,7 @@ app.config(function(ngSimpleStoreProvider, $provide){
     ]);
     
     //delays all api requests by 700ms
-    ngSimpleStoreProvider.setDelay(700);
+    ngSimpleStoreProvider.setDelay(700, $provide);
 });
 
 app.run(function(ngSimpleStore, $httpBackend){
@@ -57,7 +67,7 @@ Sets the base url of the api
 
 Adds a fake backend endpoint to apiUrl/name
 
-#### ngSimpleStoreProvider.setDelay(delay)
+#### ngSimpleStoreProvider.setDelay(delay, $provide)
 
 Set api delay (ms)
 
