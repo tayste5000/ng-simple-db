@@ -1,0 +1,17 @@
+{
+  "name": "ng-simpledb",
+  "globalDependencies": {
+    "angular": "registry:dt/angular#1.5.0+20160709055139",
+    "angular-mocks": "registry:dt/angular-mocks#1.5.0+20160608104721",
+    "jquery": "registry:dt/jquery#1.10.0+20160704162008",
+    "lodash": "registry:dt/lodash#3.10.0+20160720001309",
+    "mocha": "registry:dt/mocha#2.2.5+20160720003353",
+    "path-to-regexp": "registry:dt/path-to-regexp#1.0.3+20160317120654"
+  },
+  "globalDevDependencies": {
+    "chai": "registry:dt/chai#3.4.0+20160601211834"
+  },
+  "dependencies": {
+    "lodash": "registry:npm/lodash#4.0.0+20160701205107"
+  }
+}

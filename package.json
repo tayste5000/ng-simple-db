@@ -1,0 +1,28 @@
+{
+  "name": "ng-simpledb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/ng-simpledb.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "test": "mocha --compilers ts:ts-node/register ./lib/**/*.spec.ts",
+    "test:watch": "npm run test -- --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^2.5.3",
+    "ts-loader": "^0.8.2",
+    "ts-node": "^1.0.0",
+    "typescript": "^1.8.10",
+    "webpack": "^1.13.1"
+  },
+  "dependencies": {
+    "angular": "^1.5.7",
+    "angular-mocks": "^1.5.7",
+    "lodash": "^4.13.1",
+    "path-to-regexp": "^1.5.3"
+  }
+}
