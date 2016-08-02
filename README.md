@@ -14,6 +14,15 @@ A small module for easily building a fake backend into an angular application. W
 
 #### Quick Start
 #
+**To install:**
+#
+`npm install -S ng-simpledb`
+#
+**To see a quick demonstration:**
+#
+`npm install -S angular angular-mocks`
+#
+And then place the following in a script tag (after loading angular, angular-mocks, and ng-simpledb):
 ```
 var app = angular.module('myApp',['ngMockE2E', 'ngSimpleDb']);
 
@@ -38,20 +47,31 @@ app.run(function(ngSimpleStore, $httpBackend){
 });
 
 app.controller('testCtrl', function($http){
-    //returns [{id: 1, name: 'bar'},{id: 2, name: 'baz'}]
-    $http.get('/api/foo').then(...);
     
-    //returns {id: 1, name: 'bar'}
-    $http.get('/api/foo/1').then(...);
+    $http.get('/api/foo').then(function(res){
+        //returns [{id: 1, name: 'bar'},{id: 2, name: 'baz'}]
+        console.log('GET /api/foo yields:',res.data);
+    });
     
-    //returns {id: 3, name: 'foo'}
-    $http.post('/api/foo',{name: 'foo'}).then(...);
+    $http.get('/api/foo/1').then(function(res){
+        //returns {id: 1, name: 'bar'}
+        console.log('GET /api/foo/1 yields:', res.data');
+    });
     
-    //returns {id: 3, name: 'bob'}
-    $http.put('/api/foo/3',{id: 3, name: 'bob'}).then(...);
+    $http.post('/api/foo',{name: 'foo'}).then(function(res){
+        //returns {id: 3, name: 'foo'}
+        console.log('POST /api/foo {name: 'foo'} yields:', res.data);
+    });
     
-    //returns empty response (204)
-    $http.delete('/api/foo/3').then(...);
+    $http.put('/api/foo/3',{id: 3, name: 'bob'}).then(function(res){
+        //returns {id: 3, name: 'bob'}
+        console.log('PUT /api/foo/3 {id: 3, name: 'bob'} yields:', res.data);
+    });
+    
+    $http.delete('/api/foo/3').then(function(res){
+        //returns RESOURCE SUCCESFULLY DELETED
+        console.log('DELETE /api/foo/3 yields:', res.data)
+    });
 });
 ```
 
