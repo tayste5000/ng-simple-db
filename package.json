@@ -1,6 +1,6 @@
 {
   "name": "ng-simpledb",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Simple angular module for building mock backends",
   "main": "dist/ng-simpledb.js",
   "typings": "dist/index.d.ts",

@@ -24,6 +24,26 @@ export class DbServiceClass {
 
 			let resource : Function = createBackendResource(store.resources);
 
+			if(store.extra_handlers){
+				store.extra_handlers.forEach(extra_handler => {
+					let custom_path_regex : RegExp;
+
+					if (extra_handler.hasOwnProperty('captureParams')){
+						custom_path_regex = path2regexp(`${this.apiUrl}${store.name}/${extra_handler.url}`);
+					}
+
+					console.log(extra_handler, custom_path_regex);
+
+					extra_handler.verbs.forEach(verb => {
+						if (custom_path_regex){
+							$httpBackend.when(verb, custom_path_regex, undefined, undefined, extra_handler.captureParams).respond(extra_handler.handleFunc);
+						} else {
+							$httpBackend.when(verb, `${this.apiUrl}${store.name}/${extra_handler.url}`).respond(extra_handler.handleFunc);
+						}
+					})
+				})
+			}
+
 			$httpBackend.whenGET(path_regex, undefined, ['id']).respond(resource);
 
 			$httpBackend.whenPUT(path_regex, undefined, undefined, ['id']).respond(resource);
@@ -89,7 +109,11 @@ class DbServiceProvider implements ng.IServiceProvider {
 		}
 	}
 
-	public addResources(name: string, resources : Array<any>) : void{
+	public addResources(name: string, resources : Array<any>, extra_handlers: Array<any>) : void{
+		if(extra_handlers){
+			this.stores.push({name: name, resources: resources, extra_handlers: extra_handlers})
+		}
+
 		this.stores.push({name: name, resources: resources});
 	}
 

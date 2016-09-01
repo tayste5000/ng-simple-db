@@ -2,8 +2,6 @@ import * as lodash from 'lodash';
 
 function backendResource(store : Array<any>, method : string, url : string, data : string, headers : any, params : any) : Array<any>{
 
-	//console.log(store, method, url, data, headers, params);
-
 	switch (method) {
 		case 'GET':
 			//if no 'id' parameter passed, do getAll	
