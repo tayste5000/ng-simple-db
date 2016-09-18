@@ -40,9 +40,9 @@ Create a new resource (adds 'id' parameter)
 
 Replace entry with a matching 'id' parameter.
 
-### Rresource destroy(id)
+### Resource.destroy(id)
 
-Replace entry with a matchin 'id' parameter.
+Replace entry with a matching 'id' parameter.
 
 ## ngSimpleStoreProvider
 
@@ -67,7 +67,7 @@ Add a mock resource.
 Add a mock endpoint.
 
 + Stores - Names of resources to load into endpoint function
-+ Endpoint - function with the call signature (stores, data, parameters)
++ Endpoint - function with the call signature (resources, data, parameters)
 returning an array of the form [status, data, headers] which is expected
 by ngMocks
 
@@ -75,11 +75,11 @@ by ngMocks
 
 Contains a set of shortcut endpoint functions.
 
-### ngSimpleStoreProvider.templates.getAll(stores, params, data)
+### ngSimpleStoreProvider.templates.getAll(resources, params, data)
 
 Get all items from the first store loaded.
 
-### ngSimpleStoreProvider.templates.getAllBy(feature, stores, params, data)
+### ngSimpleStoreProvider.templates.getAllBy(feature, resources, params, data)
 
 Get all items from the first store loaded and filter by a given parameter.
 
@@ -88,20 +88,20 @@ this function will look for the value corresponding to 'id' in the url param
 (i.e. 1 in /api/foo/1) and then retrieve all objects from your store where
 the id property of the object is 1
 
-### ngSimpleStoreProvider.templates.getOneBy(feature, stores, params, data)
+### ngSimpleStoreProvider.templates.getOneBy(feature, resources, params, data)
 
 Same as getAllBy except only the first element in the resulting array is returned,
 and if there are no elements in the resulting array we return 404.
 
-### ngSimpleStoreProvider.templates.create(stores, params, data)
+### ngSimpleStoreProvider.templates.create(resources, params, data)
 
 Create new item in the first store loaded.
 
-### ngSimpleStoreProvider.templates.update(stores, params, data)
+### ngSimpleStoreProvider.templates.update(resources, params, data)
 
 Update an item in the first store loaded. (return 404 if no item with same ID)
 
-### ngSimpleStoreProvider.templates.delete(stores, params, data)
+### ngSimpleStoreProvider.templates.delete(resources, params, data)
 
 Delete an item in the first store loaded. (returns 404 if no item with same ID)
 
