@@ -2,78 +2,26 @@
 
 A small module for easily building a fake backend into an angular application. Written with typescript.
 
+**To install:**
+#
+`npm install ng-simpledb`
+#
+**Dependencies:**
++ AngularJS
++ ngMock
+
 ### How it works:
 + In the config block:
-    + Specify the API base URL (defaults to /)
-    + Provide route names paired with arrays of data to build each endpoint
+    + Specify the API base URL (defaults to /api/)
     + Set an API delay (default is no delay)
+    + Supply mock data
+    + Build mock endpoints using the mock data
 + In the run block:
     + Trigger the setup function to build the backend
 + What you get:
-    + Using the $http service (or anything that uses this), any GET, POST, PUT, or DELETE request which matches one of the routes specified will perform the expected operation (using the array you supplied with route name as a data store)
+    + Using the $http service (or anything that uses this), any HTTP request which matches one of the routes specified will perform the corresponding operation (using the array you supplied with route name as a data store)
 
-#### Quick Start
-#
-**To install:**
-#
-`npm install -S ng-simpledb`
-#
-**To see a quick demonstration:**
-#
-`npm install -S angular angular-mocks`
-#
-And then place the following in a script tag (after loading angular, angular-mocks, and ng-simpledb):
-```
-var app = angular.module('myApp',['ngMockE2E', 'ngSimpleDb']);
-
-app.config(function(ngSimpleStoreProvider, $provide){
-    
-    //sets api root
-    ngSimpleStoreProvider.apiUrl = '/api/';
-    
-    //creates backend resource at /api/foo
-    ngSimpleStoreProvider.addResource('foo', [
-        {id: 1, name: 'bar'},
-        {id: 2, name: 'baz'}
-    ]);
-    
-    //delays all api requests by 700ms
-    ngSimpleStoreProvider.setDelay(700, $provide);
-});
-
-app.run(function(ngSimpleStore, $httpBackend){
-    //build fake backend
-    ngSimpleStore.setup($httpBackend);
-});
-
-app.controller('testCtrl', function($http){
-    
-    $http.get('/api/foo').then(function(res){
-        //returns [{id: 1, name: 'bar'},{id: 2, name: 'baz'}]
-        console.log('GET /api/foo yields:',res.data);
-    });
-    
-    $http.get('/api/foo/1').then(function(res){
-        //returns {id: 1, name: 'bar'}
-        console.log('GET /api/foo/1 yields:', res.data);
-    });
-    
-    $http.post('/api/foo',{name: 'foo'}).then(function(res){
-        //returns {id: 3, name: 'foo'}
-        console.log('POST /api/foo {name: 'foo'} yields:', res.data);
-    });
-    
-    $http.put('/api/foo/3',{id: 3, name: 'bob'}).then(function(res){
-        //returns {id: 3, name: 'bob'}
-        console.log('PUT /api/foo/3 {id: 3, name: 'bob'} yields:', res.data);
-    });
-    
-    $http.delete('/api/foo/3').then(function(res){
-        //returns RESOURCE SUCCESFULLY DELETED
-        console.log('DELETE /api/foo/3 yields:', res.data)
-    });
-});
-```
+# API
 
 ## ngSimpleStoreProvider
 
@@ -83,13 +31,79 @@ Configure the fake backend
 
 Sets the base url of the api
 
-### ngSimpleStoreProvider.addResource(name, resourceList)
-
-Adds a fake backend endpoint to apiUrl/name
-
 ### ngSimpleStoreProvider.setDelay(delay, $provide)
 
-Set api delay (ms)
+Set a universal API delay.
+
+### Resource
+
+Data wrapper for your object that adds simple CRUD methods to it.
+Is accessed inside of the endpoint functions.
+
+### Resource.read()
+
+Fetch all data from a resource
+
+### Resource.create(data)
+
+Create a new resource (adds 'id' parameter)
+
+### Resource.update(data)
+
+Replace entry with a matching 'id' parameter.
+
+### Rresource destroy(id)
+
+Replace entry with a matchin 'id' parameter.
+
+### ngSimpleStoreProvider.addResource(name, resourceList)
+
+Add a mock resource.
+
++ resourceList  - An arbitrary collection (array of objects)
+
+### ngSimpleStoreProvider.addEndpoint(method, url, stores, endpoint)
+
+Add a mock endpoint.
+
++ Stores - Names of resources to load into endpoint function
++ Endpoint - function with the call signature (stores, data, parameters)
+returning an array of the form [status, data, headers] which is expected
+by ngMocks
+
+### ngSimpleStoreProvider.templates
+
+Contains a set of shortcut endpoint functions.
+
+### ngSimpleStoreProvider.templates.getAll(stores, params, data)
+
+Get all items from the first store loaded.
+
+### ngSimpleStoreProvider.templates.getAllBy(feature, stores, params, data)
+
+Get all items from the first store loaded and filter by a given parameter.
+
+**How it works**: If you pass /api/foo/:id as the url and 'id' as the feature,
+this function will look for the value corresponding to 'id' in the url param
+(i.e. 1 in /api/foo/1) and then retrieve all objects from your store where
+the id property of the object is 1
+
+### ngSimpleStoreProvider.templates.getOneBy(feature, stores, params, data)
+
+Same as getAllBy except only the first element in the resulting array is returned,
+and if there are no elements in the resulting array we return 404.
+
+### ngSimpleStoreProvider.templates.create(stores, params, data)
+
+Create new item in the first store loaded.
+
+### ngSimpleStoreProvider.templates.update(stores, params, data)
+
+Update an item in the first store loaded. (return 404 if no item with same ID)
+
+### ngSimpleStoreProvider.templates.delete(stores, params, data)
+
+Delete an item in the first store loaded. (returns 404 if no item with same ID)
 
 ## ngSimpleStore
 
