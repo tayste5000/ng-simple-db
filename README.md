@@ -62,11 +62,11 @@ Add a mock resource.
 
 + resourceList  - An arbitrary collection (array of objects)
 
-### ngSimpleStoreProvider.addEndpoint(method, url, stores, endpoint)
+### ngSimpleStoreProvider.addEndpoint(method, url, resources, endpoint)
 
 Add a mock endpoint.
 
-+ Stores - Names of resources to load into endpoint function
++ Resources - Names of resources to load into endpoint function
 + Endpoint - function with the call signature (resources, data, parameters)
 returning an array of the form [status, data, headers] which is expected
 by ngMocks
