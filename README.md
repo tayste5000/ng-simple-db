@@ -23,19 +23,7 @@ A small module for easily building a fake backend into an angular application. W
 
 # API
 
-## ngSimpleStoreProvider
-
-Configure the fake backend
-
-### ngSimpleStoreProvider.apiUrl
-
-Sets the base url of the api
-
-### ngSimpleStoreProvider.setDelay(delay, $provide)
-
-Set a universal API delay.
-
-### Resource
+## Resource
 
 Data wrapper for your object that adds simple CRUD methods to it.
 Is accessed inside of the endpoint functions.
@@ -55,6 +43,18 @@ Replace entry with a matching 'id' parameter.
 ### Rresource destroy(id)
 
 Replace entry with a matchin 'id' parameter.
+
+## ngSimpleStoreProvider
+
+Configure the fake backend
+
+### ngSimpleStoreProvider.apiUrl
+
+Sets the base url of the api
+
+### ngSimpleStoreProvider.setDelay(delay, $provide)
+
+Set a universal API delay.
 
 ### ngSimpleStoreProvider.addResource(name, resourceList)
 
