@@ -1,0 +1,115 @@
+<html>
+<head></head>
+<body>
+
+<div ng-app='myApp' ng-controller='testCtrl as $ctrl'>
+    <div ng-if='$ctrl.getAll'>
+        GET /api/foo yields: {{$ctrl.getAll}}
+    </div>
+     <div ng-if='$ctrl.getOne'>
+        GET /api/foo/1 yields: {{$ctrl.getOne}}
+    </div>
+     <div ng-if='$ctrl.post'>
+        POST /api/foo {name: "foo"} yields: {{$ctrl.post}}
+    </div>
+     <div ng-if='$ctrl.update'>
+        PUT /api/foo/3 {id: 3, name: "bob", color: "green"} yields: {{$ctrl.update}}
+    </div>
+     <div ng-if='$ctrl.delete'>
+        DELETE /api/foo/3 yields: {{$ctrl.delete}}
+    </div>
+     <div ng-if='$ctrl.getColor'>
+        GET /api/foo/color/green yields: {{$ctrl.getColor}}
+    </div>
+</div>
+
+<script type="text/javascript" src='node_modules/angular/angular.js'></script>
+<script type="text/javascript" src='node_modules/angular-mocks/angular-mocks.js'></script>
+<script src='node_modules/ng-simpledb/dist/ng-simpledb.js'></script>
+<script>
+var app = angular.module('myApp',['ngMockE2E', 'ngSimpleDb']);
+
+app.config(['ngSimpleStoreProvider', '$provide', function(ngSimpleStoreProvider, $provide){
+
+    // Set api root
+    ngSimpleStoreProvider.apiUrl = '/api/';
+
+    var fooObjects = [
+        {id: 1, name: 'bar', color: 'green'},
+        {id: 2, name: 'baz', color: 'blue'}
+    ];
+
+    // Creates backend resource named foo
+    ngSimpleStoreProvider.addResources('foo', fooObjects);
+
+    // Add endpoints for interacting with foo using response templates
+    ngSimpleStoreProvider.addEndpoint('GET', '/api/foo', ['foo'], ngSimpleStoreProvider.templates.getAll());
+
+    ngSimpleStoreProvider.addEndpoint('GET', '/api/foo/color/:color', ['foo'], ngSimpleStoreProvider.templates.getAllBy('color'));
+
+    ngSimpleStoreProvider.addEndpoint('GET', '/api/foo/:id', ['foo'], ngSimpleStoreProvider.templates.getOneBy('id'));
+
+    ngSimpleStoreProvider.addEndpoint('PUT', '/api/foo/:id', ['foo'], ngSimpleStoreProvider.templates.update());
+
+    ngSimpleStoreProvider.addEndpoint('POST', '/api/foo', ['foo'], ngSimpleStoreProvider.templates.create());
+
+    ngSimpleStoreProvider.addEndpoint('DELETE', '/api/foo/:id', ['foo'], ngSimpleStoreProvider.templates.delete());
+
+    // Delay all api requests by 700ms
+    ngSimpleStoreProvider.setDelay(700, $provide);
+}]);
+
+app.run(['ngSimpleStore', '$httpBackend', function(ngSimpleStore, $httpBackend){
+    // Build the mock backend
+    ngSimpleStore.setup($httpBackend);
+}]);
+
+app.controller('testCtrl', ['$http', function($http){
+
+    var that = this;
+
+    $http.get('/api/foo').then(function(res){
+        // Returns [{id: 1, name: 'bar', color: 'green'},{id: 2, name: 'baz', color: 'blue'}]
+        console.log('GET /api/foo yields:',res.data);
+
+        that.getAll = res.data
+    });
+
+    $http.get('/api/foo/1').then(function(res){
+        // Returns {id: 1, name: 'bar', color: 'green'}
+        console.log('GET /api/foo/1 yields:', res.data);
+
+        that.getOne = res.data;
+    });
+
+    $http.post('/api/foo', {name: 'foo', color: 'green'}).then(function(res){
+        // Returns {id: 3, name: 'foo'}
+        console.log('POST /api/foo {name: "foo"} yields:', res.data);
+
+        that.post = res.data;
+    });
+
+    $http.put('/api/foo/3', {id: 3, name: 'bob', color: 'green'}).then(function(res){
+        // Returns 204 response
+        console.log('PUT /api/foo/3 {id: 3, name: "bob", color: "green"} yields:', res.status);
+
+        that.put = res.status;
+    });
+
+    $http.delete('/api/foo/3').then(function(res){
+        // Returns 204 response
+        console.log('DELETE /api/foo/3 yields:', res.status);
+
+        that.delete = res.status;
+    });
+
+    $http.get('/api/foo/color/green').then(function(res){
+        // Returns [{id: 1, name: 'bar', color: 'green'}]
+        console.log('GET /api/foo/color/green yields:', res.data);
+
+        that.getColor = res.data;
+    });
+}]);
+</script>
+</body>
+</html>
